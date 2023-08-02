@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 
 entity top is 
     port (
-        clk         : in std_logic;
+        rst, clk         : in std_logic;
         N_A , N_B   : in std_logic_vector(31 downto 0);
         sum         : out std_logic_vector(31 downto 0);
         DONE        : out std_logic
@@ -29,7 +29,7 @@ architecture behavioral of top is
     end component;
     component addmant is
         port(
-        clk : in std_logic;
+        rst, clk : in std_logic;
         M_A_Shifted: in STD_LOGIC_VECTOR(24 downto 0);
         M_B_Shifted: in STD_LOGIC_VECTOR(24 downto 0);
         A_sign: in std_logic;
@@ -80,7 +80,7 @@ begin
         );
 
     addmant1 : entity work.addmant port map(
-        clk ,
+        rst, clk ,
         M_A_Shifted,
         M_B_Shifted,
         A_sign,
