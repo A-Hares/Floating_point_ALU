@@ -10,14 +10,14 @@ architecture behavioral of FPU_TB is
 
     component top is 
         port (
-            clk         : in std_logic;
+            rst, clk , en        : in std_logic;
             N_A , N_B   : in std_logic_vector(31 downto 0);
             sum         : out std_logic_vector(31 downto 0);
             DONE        : out std_logic
             );
     end component;
 
-    signal rst, clk, en        : std_logic;
+    signal rst, clk,en        : std_logic;
     signal N_A , N_B   : std_logic_vector(31 downto 0);
     signal sum         : std_logic_vector(31 downto 0);
     signal DONE        : std_logic;
@@ -32,7 +32,6 @@ begin
     );
     
     rst <= '0' , '1' after 5 ns;
-    en <= '1';
     process 
     begin
         clk <= '0';
@@ -50,6 +49,7 @@ begin
 		variable correct: boolean;
 		variable NA_golden, NB_golden, NS_golden : std_logic_vector(31 downto 0);
     begin
+        en <= '0';
         write(L_out, string'("Test                  Golden_Model    VHDL      correct?"));		
         WRITELINE(file_out, L_out);
         wait for 16 ns;
@@ -59,8 +59,9 @@ begin
 			N_A         <= NA_golden;
             N_B         <= NB_golden;
             Golden_sum  <= NS_golden;
-
-			wait until rising_edge(DONE);
+            en <= '1';
+			wait until DONE = '1';
+                wait until falling_edge(clk);
                 if Golden_sum = sum then
                     correct := True;
                 else

@@ -77,16 +77,16 @@ begin
                     exp_temp <= std_logic_vector(unsigned(exp_temp) - 1);
                     next_state <= normalize_state;
                 else
-                next_state <= done_state;
+                    next_state <= done_state;
                 end if;
 
             when done_state =>
-            DONE <= '1';
-            fract <= M_sum(22 downto 0);
-            exp <= exp_temp;
-            next_state <= add_state;
+                DONE <= '1';
+                fract <= M_sum(22 downto 0);
+                exp <= exp_temp;
+                next_state <= add_state;
             when others => 
-            next_state <= add_state;     
+                next_state <= add_state;     
         end case;
     end process;
 end;
