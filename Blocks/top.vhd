@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 
 entity top is 
     port (
-        rst, clk         : in std_logic;
+        rst, clk, en         : in std_logic;
         N_A , N_B   : in std_logic_vector(31 downto 0);
         sum         : out std_logic_vector(31 downto 0);
         DONE        : out std_logic
@@ -35,6 +35,7 @@ architecture behavioral of top is
         A_sign: in std_logic;
         B_sign: in std_logic;
         E_pre: in STD_LOGIC_VECTOR(7 downto 0);
+        en: in std_logic;
         fract: out STD_LOGIC_VECTOR(22 downto 0);
         sum_sign: out std_logic;
         exp: out STD_LOGIC_VECTOR(7 downto 0);
@@ -86,6 +87,7 @@ begin
         A_sign,
         B_sign,
         E_pre,
+        en,
         fract,
         sum_sign,
         exp,
@@ -94,4 +96,3 @@ begin
     
 
 end behavioral;
-
