@@ -17,7 +17,7 @@ architecture behavioral of FPU_TB is
             );
     end component;
 
-    signal rst, clk         : std_logic;
+    signal rst, clk, en        : std_logic;
     signal N_A , N_B   : std_logic_vector(31 downto 0);
     signal sum         : std_logic_vector(31 downto 0);
     signal DONE        : std_logic;
@@ -25,13 +25,14 @@ architecture behavioral of FPU_TB is
 begin
 
     DUT : entity work.top port map(
-        rst, clk,         
+        rst, clk, en,       
         N_A , N_B,   
         sum,        
         DONE        
     );
     
     rst <= '0' , '1' after 5 ns;
+    en <= '1';
     process 
     begin
         clk <= '0';
