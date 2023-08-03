@@ -67,7 +67,7 @@ begin
                 end if;
                 HWRITE(L_out, NA_golden, Left, 10);
                 write(L_out, string'(" + "));
-                HWRITE(L_out, NA_golden, Left, 10);
+                HWRITE(L_out, NB_golden, Left, 10);
                 write(L_out, string'(" = "));
                 HWRITE(L_out, sum, Left, 10);
                 HWRITE(L_out, Golden_sum, Left, 10);
@@ -75,7 +75,7 @@ begin
                 WRITELINE(file_out, L_out);
 			wait until falling_edge(DONE);
 		end loop;
-		wait;
+        assert FALSE Report "SImulation Finished" severity FAILURE;
     end process;
 
 
