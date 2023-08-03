@@ -3,10 +3,10 @@ use ieee.std_logic_1164.all;
 use ieee.std_logic_textio.all;
 use std.textio.all;
 
-entity FPU_TB is 
-end FPU_TB;
+entity FPU_TB_product is 
+end FPU_TB_product;
 
-architecture behavioral of FPU_TB is 
+architecture behavioral of FPU_TB_product is 
 
     component top is 
         port (
@@ -19,19 +19,19 @@ architecture behavioral of FPU_TB is
 
     signal rst, clk,en ,op        : std_logic;
     signal N_A , N_B   : std_logic_vector(31 downto 0);
-    signal sum         : std_logic_vector(31 downto 0);
+    signal product         : std_logic_vector(31 downto 0);
     signal DONE        : std_logic;
-    signal Golden_sum  : std_logic_vector(31 downto 0);
+    signal Golden_product  : std_logic_vector(31 downto 0);
 begin
 
     DUT : entity work.top port map(
         rst, clk, en, op,  
         N_A , N_B,   
-        sum,        
+        product,        
         DONE        
     );
 
-    op <= '0';
+    op <= '1';
     rst <= '0' , '1' after 5 ns;
     process 
     begin
@@ -44,26 +44,26 @@ begin
     testvectors : process
         file file_A     : TEXT open READ_MODE is "a.txt";    
 		file file_B     : TEXT open READ_MODE is "b.txt";    
-		file file_sum   : TEXT open READ_MODE is "sum.txt";  
-		file file_out   : TEXT open WRITE_MODE is "result.txt";  
-		variable L_A, L_B, L_sum, L_out: LINE;
+		file file_product   : TEXT open READ_MODE is "mult.txt";  
+		file file_out   : TEXT open WRITE_MODE is "resultpro.txt";  
+		variable L_A, L_B, L_product, L_out: LINE;
 		variable correct: boolean;
 		variable NA_golden, NB_golden, NS_golden : std_logic_vector(31 downto 0);
     begin
         en <= '0';
-        write(L_out, string'("Test                        Golden_Model_sum     VHDL_sum      correct_sum?"));		
+        write(L_out, string'("Test                        Golden_Model_pro     VHDL_pro      correct_pro?"));		
         WRITELINE(file_out, L_out);
         wait for 16 ns;
-        while not (ENDFILE(file_A) or ENDFILE(file_B) or  ENDFILE(file_sum)) loop
-			READLINE(file_A, L_A);      READLINE(file_B, L_B);      READLINE(file_sum, L_sum);
-			HREAD(L_A, NA_golden);      HREAD(L_B, NB_golden);   HREAD(L_sum, NS_golden);
+        while not (ENDFILE(file_A) or ENDFILE(file_B) or  ENDFILE(file_product)) loop
+			READLINE(file_A, L_A);      READLINE(file_B, L_B);      READLINE(file_product, L_product);
+			HREAD(L_A, NA_golden);      HREAD(L_B, NB_golden);   HREAD(L_product, NS_golden);
 			N_A         <= NA_golden;
             N_B         <= NB_golden;
-            Golden_sum  <= NS_golden;
+            Golden_product  <= NS_golden;
             en <= '1';
 			wait until DONE = '1';
                 wait until falling_edge(clk);
-                if Golden_sum = sum then
+                if Golden_product = product then
                     correct := True;
                 else
                     correct := False;
@@ -72,8 +72,8 @@ begin
                 write(L_out, string'(" +/* "));
                 HWRITE(L_out, NB_golden, Left, 10);
                 write(L_out, string'(" = "));
-                HWRITE(L_out, Golden_sum, Left, 21);
-                HWRITE(L_out, sum, Left, 14);
+                HWRITE(L_out, Golden_product, Left, 21);
+                HWRITE(L_out, product, Left, 14);
                 WRITE(L_out, correct, Left, 10);			
                 WRITELINE(file_out, L_out);
 			wait until falling_edge(DONE);
