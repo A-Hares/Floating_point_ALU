@@ -11,7 +11,9 @@ The Floating Point Arithmetic Logic Unit (FPU) stands as a cornerstone of modern
 - Testbench for functional verification with a golden model written with Python code.
 - Synthesis-ready design for FPGA deployment.
 ## 3. Architecture:
-![FPU architecture](https://github.com/petergad14/Floating_point_ALU/assets/139645814/6006f60b-7a55-4c47-8e93-dfb5b1871667)
+
+![FPU architecture](https://github.com/petergad14/Floating_point_ALU/assets/139645814/d594eaae-4883-4644-baeb-ba84aa586036)
+
 
 As shown in the architecture, the design mainly consists of 5 blocks:
 
@@ -21,17 +23,18 @@ b. `Shifter`: It takes the mantissa of both inputs and shifts them by the value 
 
 c. `Add/Sub & normalize`: This is an FSM to add the Mantissa and then normalize to get the final value of addition and then raise a flag that the operation is done.
 
-d. `Mantissa multiplication`: If the operation of the ALU is multiplication, this block takes the mantissas as input and multiplies the together.
+d. `Mantissa multiplication`: If the operation of the ALU is multiplication, this block takes the mantissas as input and multiplies them together.
 
-e. `Multiplication FSM`: This block is used when the operation performed by the ALU is multiplication and it takes as input both numbers, exponent and the output of the previous block, performs the final operation, and then raises a flag when the operation is done.
+e. `Multiplication FSM`: This block is used when the operation performed by the ALU is multiplication and it takes as input both numbers, exponent, and the output of the previous block, performs the final operation, and then raises a flag when the operation is done.
 
 ## 4. Verification:
 A Python code was written as a golden model and a test was made for 1000 inputs for addition, subtraction, and multiplication. We took the test results in a txt file and imported it in our testbench and all the results were correct.
 
 ## 5. Synthesis: 
   Synthesis was done using ISE on Xillinix 3e FPGA and the summary is shown in the figure below
+  
+![Synthesis Summar](https://github.com/petergad14/Floating_point_ALU/assets/139645814/3514b98f-6d3f-4556-ba58-7c89b05d6db5)
 
-![WhatsApp Image 2023-08-03 at 9 05 58 PM](https://github.com/petergad14/Floating_point_ALU/assets/139645814/441bd74d-3f50-47ed-a5ed-7d81a520b3c8)
 
 <br /> 
 <br />
